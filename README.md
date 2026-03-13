@@ -5,7 +5,7 @@
 ## Integrantes:
 * Vanessa Gabriela Arévalo Elías - @AE25016-VA
 * Carlos Enoc Calzada Vargas - @
-* Rafael Antonio Cerritos Acosta - @
+* Rafael Antonio Cerritos Acosta - @CA25045
 
 ## Proyecto
 Este es un sisstema desarrollado en CLI usando Python, para gestionar las reservas de un restaurante.
