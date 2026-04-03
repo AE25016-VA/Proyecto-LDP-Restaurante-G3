@@ -4,7 +4,7 @@
 
 ## Integrantes:
 * Vanessa Gabriela Arévalo Elías - @AE25016-VA
-* Carlos Enoc Calzada Vargas - @Enoc Calzada
+* Carlos Enoc Calzada Vargas - @cv19058
 * Rafael Antonio Cerritos Acosta - @CA25045
 
 ## Proyecto
