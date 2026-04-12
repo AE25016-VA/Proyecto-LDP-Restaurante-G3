@@ -22,7 +22,8 @@ Algoritmo Modulo_LogicaReservas
 	Definir mesaSolicitada, personasSolicitadas Como Entero
 	Definir nombreCliente, fecha, turno, continuar Como Caracter
 	Definir mesaEncontrada, superposicion Como Logico
-	
+
+    Dimension indiceMReserva[100]
 	Dimension clienteReserva[100]
 	Dimension mesaReserva[100]
 	Dimension fechaReserva[100]
@@ -32,10 +33,10 @@ Algoritmo Modulo_LogicaReservas
 	totalReservas <- 0
 	
 	// =============================================
-	// SECCIÓN: CREAR RESERVAS
+	// SECCIÃ“N: CREAR RESERVAS
 	// =============================================
 	Escribir "=============================="
-	Escribir "   MÓDULO DE RESERVAS"
+	Escribir "   MÃ“DULO DE RESERVAS"
 	Escribir "=============================="
 	
 	Repetir
@@ -46,8 +47,8 @@ Algoritmo Modulo_LogicaReservas
 		Escribir "Ingrese el nombre del cliente:"
 		Leer nombreCliente
 		
-		// Paso 2: Número de mesa
-		Escribir "Ingrese el número de mesa deseado:"
+		// Paso 2: NÃºmero de mesa
+		Escribir "Ingrese el nÃºmero de mesa deseado:"
 		Leer mesaSolicitada
 		
 		// Verificar que la mesa existe
@@ -64,12 +65,12 @@ Algoritmo Modulo_LogicaReservas
 			Escribir "ERROR: La mesa #", mesaSolicitada, " no existe en el sistema."
 			
 		SiNo
-			// Paso 3: Número de personas + VALIDACIÓN DE CAPACIDAD
+			// Paso 3: NÃºmero de personas + VALIDACIÃ“N DE CAPACIDAD
 			Repetir
-				Escribir "Ingrese el número de personas para la reserva:"
+				Escribir "Ingrese el nÃºmero de personas para la reserva:"
 				Leer personasSolicitadas
 				Si personasSolicitadas <= 0 Entonces
-					Escribir "ERROR: El número de personas debe ser mayor a cero."
+					Escribir "ERROR: El nÃºmero de personas debe ser mayor a cero."
 				FinSi
 			Hasta Que personasSolicitadas > 0
 			
@@ -83,16 +84,16 @@ Algoritmo Modulo_LogicaReservas
 				Escribir "Ingrese la fecha de la reserva (DD/MM/AAAA):"
 				Leer fecha
 				
-				// Paso 5: Turno + VALIDACIÓN
+				// Paso 5: Turno + VALIDACIÃ“N
 				Repetir
-					Escribir "Ingrese el turno (Mañana / Tarde / Noche):"
+					Escribir "Ingrese el turno (MaÃ±ana / Tarde / Noche):"
 					Leer turno
-					Si Mayusculas(turno) <> "MAÑANA" Y Mayusculas(turno) <> "TARDE" Y Mayusculas(turno) <> "NOCHE" Entonces
-						Escribir "ERROR: Turno inválido. Elija entre Mañana, Tarde o Noche."
+					Si Mayusculas(turno) <> "MAÃ‘ANA" Y Mayusculas(turno) <> "TARDE" Y Mayusculas(turno) <> "NOCHE" Entonces
+						Escribir "ERROR: Turno invÃ¡lido. Elija entre MaÃ±ana, Tarde o Noche."
 					FinSi
-				Hasta Que Mayusculas(turno) = "MAÑANA" O Mayusculas(turno) = "TARDE" O Mayusculas(turno) = "NOCHE"
+				Hasta Que Mayusculas(turno) = "MAÃ‘ANA" O Mayusculas(turno) = "TARDE" O Mayusculas(turno) = "NOCHE"
 				
-				// Paso 6: VALIDACIÓN DE SUPERPOSICIÓN DE HORARIOS
+				// Paso 6: VALIDACIÃ“N DE SUPERPOSICIÃ“N DE HORARIOS
 				superposicion <- Falso
 				Si totalReservas > 0 Entonces
 					Para j <- 1 Hasta totalReservas Hacer
@@ -103,7 +104,7 @@ Algoritmo Modulo_LogicaReservas
 				FinSi
 				
 				Si superposicion = Verdadero Entonces
-					Escribir "ERROR: Superposición de horarios detectada."
+					Escribir "ERROR: SuperposiciÃ³n de horarios detectada."
 					Escribir "La mesa #", mesaSolicitada, " ya tiene una reserva el ", fecha, " en el turno ", turno, "."
 					
 				SiNo
@@ -111,6 +112,7 @@ Algoritmo Modulo_LogicaReservas
 					totalReservas <- totalReservas + 1
 					clienteReserva[totalReservas]  <- nombreCliente
 					mesaReserva[totalReservas]     <- mesaSolicitada
+					indiceMReserva[totalReservas]  <- indiceM  
 					fechaReserva[totalReservas]    <- fecha
 					turnoReserva[totalReservas]    <- turno
 					personasReserva[totalReservas] <- personasSolicitadas
@@ -120,9 +122,9 @@ Algoritmo Modulo_LogicaReservas
 			FinSi
 		FinSi
 		
-		// Preguntar si continúa
+		// Preguntar si continÃºa
 		Repetir
-			Escribir "¿Desea registrar otra reserva? (Si/No)"
+			Escribir "Â¿Desea registrar otra reserva? (Si/No)"
 			Leer continuar
 			Si Mayusculas(continuar) <> "SI" Y Mayusculas(continuar) <> "NO" Entonces
 				Escribir "ERROR: Por favor responda Si o No."
@@ -140,16 +142,16 @@ Algoritmo Modulo_LogicaReservas
 	Escribir "=============================="
 	
 	Si totalReservas = 0 Entonces
-		Escribir "No se registró ninguna reserva."
+		Escribir "No se registrÃ³ ninguna reserva."
 	SiNo
-		Para i <- 1 Hasta totalReservas Hacer
-			Escribir "Reserva #", i
-			Escribir "  Cliente  : ", clienteReserva[i]
-			Escribir "  Mesa     : #", mesaReserva[i], " (Capacidad: ", capacidades[mesaReserva[i]], " personas)"
-			Escribir "  Personas : ", personasReserva[i]
-			Escribir "  Fecha    : ", fechaReserva[i]
-			Escribir "  Turno    : ", turnoReserva[i]
-		FinPara
+Para i <- 1 Hasta totalReservas Hacer
+    Escribir "Reserva #", i
+    Escribir "  Cliente   : ", clienteReserva[i]
+    Escribir "  Mesa      : #", mesaReserva[i], " (Capacidad: ", capacidades[indiceMReserva[i]], " personas)"
+    Escribir "  Turno ID  : ", turnoReserva[i]
+    Escribir "  Fecha     : ", fechaReserva[i]
+    Escribir "  Personas  : ", personasReserva[i]
+FinPara
 	FinSi
 
 FinAlgoritmo
