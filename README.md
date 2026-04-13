@@ -8,4 +8,4 @@
 * Rafael Antonio Cerritos Acosta - @CA25045
 
 ## Proyecto
-Este es un sisstema desarrollado en CLI usando Python, para gestionar las reservas de un restaurante.
+Este es un sisstema usando Pseint para el desarrollo de pseudocodigo de los diferentes modulos que conforman el sistema, para gestionar las reservas de un restaurante.
