@@ -1,4 +1,35 @@
 #Comenzanr el modulo
+clientes = []
+mesas = []
+
+#Clientes 
+def registrar_clientes():
+    nombre = input("Ingrese nombre del cliente: ")
+    if any (c['nombre'].upper() == nombre.upper() for c in clientes):
+        print("ERROR: Este cliente ya está registrado.")
+        return
+    
+    telefono = input(f"Ingrese el número del teléfono de {nombre}: ")
+    clientes.append({"nombre": nombre, "telefono": telefono})
+    print(f"Cliente {nombre} guardado on éxito.")
+
+def editar_clientes ():
+    nombre_buscar = input("Nombre del cliente a editar: ")
+    for cliente in clientes:
+        if cliente['nombre'].upper() == nombre_buscar.upper():
+           cliente['telefono'] = input("Nuevo teléfono: ")
+           print("Datos atualizados.")
+           return
+    print ("Cliente no encontrado.")
+
+def eliminar_cliente():
+    nombre_buscar = input("Nombre del cliente a eliminar: ")
+    global clientes
+    clientes = [c for c in clientes if c['nombre'].upper() != nombre_buscar.upper()]
+    print("Si el cliente existía, ha sido eliminado.")
+
+#Mesas
+def registrar_mesa():
     try:
         numero = int(input("Ingrese el número de la mesa: "))
         if any (m['numero'] == numero for m in mesas):
