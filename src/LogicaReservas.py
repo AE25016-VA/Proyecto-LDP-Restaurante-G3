@@ -1,9 +1,3 @@
-# ================================================
-# MÓDULO 2 — Lógica de Reservas
-# Enoc Calzada | Grupo 3
-# Depende de: modulo1.py (mesas) y modulo3.py (turnos)
-# ================================================
-
 from clientes_mesas import mesas, clientes 
 from infraestructura import mostrar_turnos, determinar_turno
 
