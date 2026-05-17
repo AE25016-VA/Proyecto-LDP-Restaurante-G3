@@ -8,12 +8,12 @@
 * Rafael Antonio Cerritos Acosta - @CA25045
 
 ## Proyecto
-Este es un sisstema usando Pseint para el desarrollo de pseudocodigo de los diferentes modulos que conforman el sistema, para gestionar las reservas de un restaurante.
+Este es un sistema desarrollado en Python para gestionar las operaciones y reservas de un restaurante. El diseño del programa comenzó cone una planificación previa en pseudocódigo, evolucionando hacia una aplicación completamente integrada y funcional que automatiza el control de flujos de datos en tiempo real.
 
 ## Módulos Integrados:
 1. **Gestión de Clientes y Mesas:** Registro y validación de datos maestros. (Vanessa AE25016)
 2. **Sistema de Reservas:** Control de disponibilidad por fecha, mesa y capacidad. (Enoc CV19058)
 3. **Control de Turnos:** Clasificación automática de horarios (Desayuno, Almuerzo, Cena y Horario General). (Rafael CA25015)
-4. **Reportes:** Generación de resúmenes detallados de las reservaciones.
+4. **Reportes:** Generación de resúmenes mostrando el estado de la infraestructura y reservas del sistema.
 
-**Nota:** El archivo con el código unificado se encuentra en la ruta: `docs/pseudocodigo/Sistema_Integrado_G3.psc`, el Modulo_MesasYClientes (Modulo 1), Modulo_2, Modulo_Infraestructura (Modulo 3), son seudocódigos independientes que subio cada integrante según le fue asignado para después unificarlo todo en "Sistema_Integrado_G3" antes mencionado.
+**Nota:** La solución definitiva se ejecuta desde el archivo unificador central ubicado en la ruta 'src/main.py' Los módulos individuales (clientes_mesas.py, LogicaReservas.py e infraestructura.py) operan como componentes interconectados que comparten variables globales en memoria para garantizar la consistencia de la información durante la ejecución.
