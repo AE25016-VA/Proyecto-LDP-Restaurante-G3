@@ -16,7 +16,7 @@ class TestRestaurante(unittest.TestCase):
         
         clientes.append({
             "nombre": "Vanessa",
-            "telefono": "7777-7777",
+            "telefono": "1234 4321",
             "mesas_deseadas": [5, 3]  
         })
         
