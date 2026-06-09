@@ -25,10 +25,10 @@ Siga estos pasos para clonar, iniciar y probar la aplicación CLI en su entorno 
 
 ### Clonar el Repositorio
 Abra la terminal de su sistema operativo y ejecute el siguiente comando para clonar el proyecto:
-
+```bash
 git clone [https://github.com/TU_USUARIO/Proyecto-LDP-Restaurante-G3.git](https://github.com/TU_USUARIO/Proyecto-LDP-Restaurante-G3.git)
 cd Proyecto-LDP-Restaurante-G3
-
+```
 ### Iniciar la Aplicación (main.py)
 Para ejecutar la solución definitiva e interactuar con la interfaz del sistema, ejecute el archivo unificador central con el siguiente comando:
 python src/main.py
@@ -64,7 +64,6 @@ El sistema cuenta con validaciones mediante bloques de control de excepciones tr
 En cumplimiento con las exigencias de control de calidad de la entrega final, el software incorpora una batería de pruebas automáticas utilizando el framework nativo unittest de Python.
 Para ejecutar todas las pruebas unitarias y verificar la integridad de la lógica de negocio directamente desde la consola, ejecute:
 
-python -m unittest src/test_proyecto.py
-
-
-python -m unittest src/test_proyecto.py
+```bash
+python -m unittest discover -s src -p "test_modulo1*.py
+```
