@@ -1,19 +1,30 @@
-# Sistema de Reservas de Restaurante - Grupo 3 #
-**Asignatura:** Lógica de Programación Orientada a Objetos (GT2)
-**Carrera:** Ingenieria de Desarrollo de Software
+# Sistema Integrado de Reservas de Restaurante - Grupo 3
+Este es el proyecto final para la asignatura de **Lógica de Programación**. Consiste en una aplicación de interfaz de línea de comandos (CLI) desarrollada en Python, diseñada para automatizar y coordinar las operaciones lógicas, asignación de mesas y control de turnos en un restaurante en tiempo real.
+El proyecto partió de una fase previa de abstracción en pseudocódigo (`docs/pseudocodigo`) y ha evolucionado hacia un software modularizado e interconectado, garantizando el manejo robusto de excepciones y la persistencia de datos.
 
-## Integrantes:
-* Vanessa Gabriela Arévalo Elías - @AE25016-VA
-* Carlos Enoc Calzada Vargas - @cv19058
-* Rafael Antonio Cerritos Acosta - @CA25045
+## Integrantes del Equipo y Roles
 
-## Proyecto
-Este es un sistema desarrollado en Python para gestionar las operaciones y reservas de un restaurante. El diseño del programa comenzó cone una planificación previa en pseudocódigo, evolucionando hacia una aplicación completamente integrada y funcional que automatiza el control de flujos de datos en tiempo real.
+* **Vanessa Gabriela Arévalo Elías** (`@AE25016-VA`) - **Coordinadora** | Desarrollo del Módulo 1: Recepción, Clientes y Mesas Deseadas.
+* **Carlos Enoc Calzada Vargas** (`@cv19058`) | Desarrollo del Módulo 2: Lógica, Asignación y Gestión de Reservas.
+* **Rafael Antonio Cerritos Acosta** (`@CA25045`) | Desarrollo del Módulo 3: Infraestructura, Control de Turnos e Informes Históricos.
 
-## Módulos Integrados:
-1. **Gestión de Clientes y Mesas:** Registro y validación de datos maestros. (Vanessa AE25016)
-2. **Sistema de Reservas:** Control de disponibilidad por fecha, mesa y capacidad. (Enoc CV19058)
-3. **Control de Turnos:** Clasificación automática de horarios (Desayuno, Almuerzo, Cena y Horario General). (Rafael CA25015)
-4. **Reportes:** Generación de resúmenes mostrando el estado de la infraestructura y reservas del sistema.
+## Arquitectura del Repositorio
 
-**Nota:** La solución definitiva se ejecuta desde el archivo unificador central ubicado en la ruta 'src/main.py' Los módulos individuales (clientes_mesas.py, LogicaReservas.py e infraestructura.py) operan como componentes interconectados que comparten variables globales en memoria para garantizar la consistencia de la información durante la ejecución.
+El proyecto se compone en las siguientes carpetas:
+* `src/`: Contiene el código fuente ejecutable en Python.
+    * `main.py`: Orquestador central de la CLI y punto de entrada del sistema.
+    * `clientes_mesas.py`: Lógica de datos maestros para pre-registro de clientes.
+    * `LogicaReservas.py`: Validación y control de colisiones en reservas.
+    * `infraestructura.py`: Gestión horaria de turnos y persistencia en archivos JSON.
+    * `test_proyecto.py`: Set de pruebas unitarias automatizadas del sistema.
+* `docs/pseudocodigo/`: Contiene los algoritmos iniciales desarrollados en PSeInt (`.psc`), sirviendo como bitácora de diseño lógico original.
+
+## Instrucciones de Ejecución
+
+Siga estos pasos para clonar, iniciar y probar la aplicación CLI en su entorno local:
+
+### 1. Clonar el Repositorio
+Abra la terminal de su sistema operativo y ejecute el siguiente comando para clonar el proyecto:
+```bash
+git clone [https://github.com/AE25016-VA/Proyecto-LDP-Restaurante-G3.git](https://github.com/AE25016-VA/Proyecto-LDP-Restaurante-G3.git)
+cd Proyecto-LDP-Restaurante-G3
