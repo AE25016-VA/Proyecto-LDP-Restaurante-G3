@@ -26,5 +26,4 @@ Siga estos pasos para clonar, iniciar y probar la aplicación CLI en su entorno 
 ### 1. Clonar el Repositorio
 Abra la terminal de su sistema operativo y ejecute el siguiente comando para clonar el proyecto:
 ```bash
-git clone [https://github.com/AE25016-VA/Proyecto-LDP-Restaurante-G3.git](https://github.com/AE25016-VA/Proyecto-LDP-Restaurante-G3.git)
-cd Proyecto-LDP-Restaurante-G3
+git clone https://github.com/AE25016-VA/Proyecto-LDP-Restaurante-G3.git
