@@ -26,4 +26,13 @@ Siga estos pasos para clonar, iniciar y probar la aplicación CLI en su entorno 
 ### 1. Clonar el Repositorio
 Abra la terminal de su sistema operativo y ejecute el siguiente comando para clonar el proyecto:
 ```bash
-git clone https://github.com/AE25016-VA/Proyecto-LDP-Restaurante-G3.git
+git clone [https://github.com/TU_USUARIO/Proyecto-LDP-Restaurante-G3.git](https://github.com/TU_USUARIO/Proyecto-LDP-Restaurante-G3.git)
+cd Proyecto-LDP-Restaurante-G3
+
+### 2. Iniciar la Aplicación
+Asegúrese de contar con Python 3 instalado en su equipo y ejecute el unificador central del proyecto:
+python src/main.py
+
+## Guía de Uso y Demostración del Sistema (Pasos de la Demo)
+Para validar la correcta integración de los módulos sin provocar inconsistencias en los datos compartidos, ejecute el programa interactivo siguiendo este orden lógico en la terminal:
+
