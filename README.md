@@ -23,16 +23,48 @@ El proyecto se compone en las siguientes carpetas:
 
 Siga estos pasos para clonar, iniciar y probar la aplicación CLI en su entorno local:
 
-### 1. Clonar el Repositorio
+### Clonar el Repositorio
 Abra la terminal de su sistema operativo y ejecute el siguiente comando para clonar el proyecto:
-```bash
+
 git clone [https://github.com/TU_USUARIO/Proyecto-LDP-Restaurante-G3.git](https://github.com/TU_USUARIO/Proyecto-LDP-Restaurante-G3.git)
 cd Proyecto-LDP-Restaurante-G3
 
-### 2. Iniciar la Aplicación
-Asegúrese de contar con Python 3 instalado en su equipo y ejecute el unificador central del proyecto:
+### Iniciar la Aplicación (main.py)
+Para ejecutar la solución definitiva e interactuar con la interfaz del sistema, ejecute el archivo unificador central con el siguiente comando:
 python src/main.py
 
-## Guía de Uso y Demostración del Sistema (Pasos de la Demo)
-Para validar la correcta integración de los módulos sin provocar inconsistencias en los datos compartidos, ejecute el programa interactivo siguiendo este orden lógico en la terminal:
+## Pasos para Probar la Demo en la Presentación
+Para demostrar el correcto funcionamiento e integración de los módulos en tiempo real frente al evaluador, ejecute el programa interactivo siguiendo estrictamente este orden lógico en la terminal:
 
+* Paso 1: Pre-registro de Clientes y Preferencias (Módulo 1)
+   * En el Menú Principal, ingrese seleccionando la Opción 1.
+   * Rellene los datos básicos solicitados en la terminal: Nombre y Teléfono del cliente.
+   * El sistema le consultará el número de mesa que el cliente desea registrar originalmente.
+   * Tras confirmar la primera mesa, el sistema le preguntará si prefiere añadir más mesas a sus preferencias. Al terminar, el flujo guardará los datos en memoria y regresará de forma limpia al Menú Principal.
+
+* Paso 2: Formalización y Validación de la Reserva (Módulo 2)
+   * En el Menú Principal, ingrese seleccionando la Opción 2.
+   * Digite el nombre exacto del cliente que pre-registró en el Paso 1.
+   * El sistema buscará en la memoria y desplegará automáticamente en pantalla la lista de mesas que ese usuario desea registrar.
+   * Proceda con la asignación ingresando los detalles de la reserva: Cantidad de personas y la Hora de la reserva.
+   * El sistema validará internamente que las capacidades sean coherentes y clasificará de manera dinámica la reserva en el horario correspondiente (Desayuno, Almuerzo o Cena), guardándola con éxito.
+
+* Paso 3: Visualización del Reporte General del Sistema
+   * Regrese una vez más al Menú Principal y elija la Opción 4 (Ver Reporte General del Sistema).
+   * Podrá examinar el balance consolidado del restaurante en tiempo real, verificando la persistencia integrada de los datos: el número total de clientes guardados por el Módulo 1 y el desglose de las reservas activas procesadas por el Módulo 2 con sus respectivos turnos.
+
+## Manejo de Errores y Robustez
+El sistema cuenta con validaciones mediante bloques de control de excepciones try-except para garantizar estabilidad ante entradas inválidas:
+
+* Evita cierres inesperados si se digitan letras en campos estrictamente numéricos (opciones de menús, números de mesa o cantidad de comensales).
+* Controla que los nombres ingresados no sean cadenas vacías.
+* Restringe la entrada de capacidades o números de personas menores o iguales a cero.
+
+## Pruebas Unitarias Automatizadas (Unittest)
+En cumplimiento con las exigencias de control de calidad de la entrega final, el software incorpora una batería de pruebas automáticas utilizando el framework nativo unittest de Python.
+Para ejecutar todas las pruebas unitarias y verificar la integridad de la lógica de negocio directamente desde la consola, ejecute:
+
+python -m unittest src/test_proyecto.py
+
+
+python -m unittest src/test_proyecto.py
