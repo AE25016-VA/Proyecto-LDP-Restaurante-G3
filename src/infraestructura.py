@@ -7,12 +7,12 @@ turnos = [
     {
         "nombre": "Desayuno",
         "inicio": "07:00",
-        "fin": "10:00"
+        "fin": "12:00"
     },
     {
         "nombre": "Almuerzo",
         "inicio": "12:00",
-        "fin": "15:00"
+        "fin": "19:00"
     },
     {
         "nombre": "Cena",
