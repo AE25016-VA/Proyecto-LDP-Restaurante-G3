@@ -65,5 +65,5 @@ En cumplimiento con las exigencias de control de calidad de la entrega final, el
 Para ejecutar todas las pruebas unitarias y verificar la integridad de la lógica de negocio directamente desde la consola, ejecute:
 
 ```bash
-python -m unittest discover -s src -p "test_modulo1*.py
+python -m unittest discover -s src -p "test_modulo1.py"
 ```
