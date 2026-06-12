@@ -1,71 +1,112 @@
-#Comenzanr el modulo
-    try:
-        numero = int(input("Ingrese el número de la mesa: "))
-        if any (m['numero'] == numero for m in mesas):
-            print("ERROR: La mesa ya está registrada.")
+# Comenzar el módulo
+clientes = []
+mesas = []
+
+# Clientes 
+def registrar_clientes():
+    print("\nREGISTRO DE CLIENTE Y MESA")
+    nombre = input("Ingrese nombre del cliente: ")
+    if nombre == "":
+        print("ERROR: El nombre no puede estar vacío.")
+        return
+
+    if any(c['nombre'].upper() == nombre.upper() for c in clientes):
+        print("ERROR: Este cliente ya está registrado.")
+        return
+    
+    telefono = input(f"Ingrese el número del teléfono de {nombre}: ")
+    mesas_cliente = []
+
+    while True:
+        try:
+            mesa = int(input("Ingrese el número de mesa que desea reservar: "))
+            
+            if mesa in mesas_cliente:
+                print("Ya has solicitado esta mesa para este cliente.")
+            else:
+                mesas_cliente.append(mesa)
+                mesas.append(mesa) 
+                print(f"Mesa {mesa} agregada.")
+            
+            resp = input("¿Desea añadir otra mesa deseada? (s/n): ").strip().lower()
+            if resp != 's':
+                break
+                
+        except ValueError:
+            print("ERROR: Ingrese un número de mesa válido.")
+            if not mesas_cliente:
+                resp = input("No se han guardado mesas. ¿Desea intentar de nuevo? (s/n): ").strip().lower()
+                if resp != 's':
+                    print("Registro cancelado.")
+                    return
+
+    if mesas_cliente:
+        clientes.append({
+            "nombre": nombre,
+            "telefono": telefono,
+            "mesas_deseadas": mesas_cliente
+        })
+        print(f"\nPre-registro de {nombre} guardado con éxito con las mesas: {mesas_cliente}")
+
+def editar_clientes():
+    nombre_buscar = input("Nombre del cliente a editar: ")
+    for cliente in clientes:
+        if cliente['nombre'].upper() == nombre_buscar.upper():
+            cliente['telefono'] = input("Nuevo teléfono: ")
+            print("Datos actualizados.")
             return
+    print("Cliente no encontrado.")
+
+def eliminar_cliente():
+    nombre_buscar = input("Nombre del cliente a eliminar: ")
+    
+    cliente_encontrado = None
+    for cliente in clientes:
+        if cliente['nombre'].upper() == nombre_buscar.upper():
+            cliente_encontrado = cliente
+            break
+            
+    if cliente_encontrado:
+        confirmacion = input(f"¿Está seguro que quiere eliminar a {cliente_encontrado['nombre']}? (s/n): ").strip().lower()
         
-        capacidad = 0
-        while capacidad <= 0:
-            capacidad = int(input("Ingrese la capacidad de la mesa: "))
-            if capacidad <= 0:
-                print("ERROR: La capacidad debe ser un número positivo.")
-
-        mesas.append({"numero": numero, "capacidad": capacidad})
-        print(f"Mesa #{numero} registrada exitosamente.")
-    except ValueError:
-        print("ERROR: Ingrese un número válido.")
-
-def editar_mesa():
-    try:
-        num_buscar = int(input("Número de la mesa a editar: "))
-        for mesa in mesas:
-            if mesa['numero'] == num_buscar:
-                mesa['capacidad'] = int(input("Nueva capacidad: "))
-        print("Mesa no encontrada.")
-    except ValueError:
-        print("ERROR: Ingrese valores numéricos.")
-
-def eliminar_mesa():
-    try:
-        num_buscar = int(input("Número de mesa a eliminar: ")) 
-        global mesas
-        mesas = [m for m in mesas if m['numero'] != num_buscar]
-        print("Si la mesa existía, ha sido eliminada.")
-    except ValueError:
-        print("ERROR: Ingrse un número válido.")
-                        
-
+        if confirmacion == 's':
+            for mesa in cliente_encontrado['mesas_deseadas']:
+                if mesa in mesas:
+                    mesas.remove(mesa)
+            
+            clientes.remove(cliente_encontrado)
+            print(f"El cliente {cliente_encontrado['nombre']} y sus peticiones de mesas han sido eliminados con éxito.")
+        else:
+            print("Eliminación cancelada.")
+    else:
+        print("Cliente no encontrado.")
+              
 def listar_todo():
-    print("RESUMEN FINAL")
-    print("Clientes:", clientes)
-    print("Mesas:", mesas)
+    print("\n=== RESUMEN FINAL ===")
+    print("Clientes registrados:")
+    if not clientes:
+        print("  (No hay clientes)")
+    for c in clientes:
+        print(f"  - {c['nombre']} (Tel: {c['telefono']}) -> Mesas: {c['mesas_deseadas']}")
+    print("Lista global de todas las mesas reservadas:", mesas)
 
-#Menu de prueba
+# Menú de prueba
 def menu_modulo1():
     while True:
-        print(" ")
-        print("MODULO CLIENTES Y MESAS")  
-        print("1. Registrar Cliente")
+        print("\nMÓDULO 1: RECEPCIÓN Y CLIENTES")  
+        print("1. Registrar Cliente y Mesas Deseadas")
         print("2. Editar Cliente")
         print("3. Eliminar Cliente")
-        print("4. Registrar Mesa")
-        print("5. Editar Mesa")
-        print("6. Eliminar Mesa")
-        print("7. Ver todo")
-        print("8. Salir")
+        print("4. Ver todo")
+        print("5. Salir al Menú Principal")
         op = input("Seleccione una opción: ")
-        print(" ")
 
         if op == "1": registrar_clientes()
         elif op == "2": editar_clientes()
         elif op == "3": eliminar_cliente()
-        elif op == "4": registrar_mesa()
-        elif op == "5": editar_mesa()
-        elif op == "6": eliminar_mesa()
-        elif op == "7": listar_todo()
-        elif op == "8": break
-        else: print("Opción no válida.")
-
-if __name__ == "__main__":
-    menu_modulo1()
+        elif op == "4": listar_todo()
+        elif op == "5": 
+            print("Saliendo del módulo...")
+            break
+        else:
+            print("Opción no válida. Intente de nuevo.")

@@ -1,10 +1,4 @@
-# ================================================
-# MÓDULO 2 — Lógica de Reservas
-# Enoc Calzada | Grupo 3
-# Depende de: modulo1.py (mesas) y modulo3.py (turnos)
-# ================================================
-
-from clientes_mesas import mesas
+from clientes_mesas import mesas, clientes
 from infraestructura import mostrar_turnos, determinar_turno
 
 # Lista donde se guardan todas las reservas
@@ -15,114 +9,150 @@ reservas = []
 # CREAR RESERVA
 # ================================================
 def crear_reserva():
-    print("\n===== NUEVA RESERVA =====")
+    print("\n===== ASIGNACIÓN Y DETALLES DE RESERVAS =====")
 
-    # Verificar que existan mesas registradas
-    if len(mesas) == 0:
-        print("ERROR: No hay mesas registradas. Registre mesas en el Módulo 1 primero.")
+    # Verificar que existan clientes registrados
+    if len(clientes) == 0:
+        print("ERROR: No hay clientes registrados. Regístrelos en el Módulo 1 primero.")
         return
 
-    # Paso 1: Nombre del cliente
-    nombre_cliente = input("Nombre del cliente: ").strip()
-    if nombre_cliente == "":
-        print("ERROR: El nombre no puede estar vacío.")
+    nombre_buscar = input("Ingrese el nombre del cliente pre-registrado: ").strip()
+    cliente_encontrado = next((c for c in clientes if c['nombre'].upper() == nombre_buscar.upper()), None)
+
+    if not cliente_encontrado:
+        print("ERROR: Cliente no encontrado en el sistema. Debe registrarse en el Módulo 1.")
         return
 
-    # Paso 2: Número de mesa
+    print(f"Mesas que este cliente solicitó originalmente: {cliente_encontrado['mesas_deseadas']}")
+
     try:
-        numero_mesa = int(input("Número de mesa deseada: "))
-    except ValueError:
-        print("ERROR: Ingrese un número válido.")
-        return
+        # Validar Número de Mesa
+        numero_mesa = int(input("Confirme el número de mesa a asignar: "))
+        if numero_mesa not in cliente_encontrado['mesas_deseadas']:
+            print("AVISO: Esta mesa no estaba en sus opciones deseadas, pero se procesará.")
 
-    # Validación 1: ¿La mesa existe?
-    mesa_encontrada = next((m for m in mesas if m['numero'] == numero_mesa), None)
-    if mesa_encontrada is None:
-        print(f"ERROR: La mesa #{numero_mesa} no existe en el sistema.")
-        return
+        # Validar Capacidad
+        capacidad = 0
+        while capacidad <= 0:
+            capacidad = int(input("Ingrese la capacidad para la mesa: "))
+            if capacidad <= 0:
+                print("ERROR: La capacidad debe ser un número positivo mayor a cero.")
 
-    # Mostrar capacidad de la mesa encontrada
-    print(f"La mesa #{numero_mesa} tiene capacidad para {mesa_encontrada['capacidad']} persona(s).")
-
-    # Paso 3: Número de personas
-    try:
-        personas = int(input("Número de personas: "))
-    except ValueError:
-        print("ERROR: Ingrese un número válido.")
-        return
-
-    # Validación 2: ¿Hay capacidad suficiente?
-    if personas <= 0:
-        print("ERROR: El número de personas debe ser mayor a cero.")
-        return
-    if personas > mesa_encontrada['capacidad']:
-        print(f"ERROR: Capacidad insuficiente.")
-        print(f"La mesa #{numero_mesa} solo tiene capacidad para {mesa_encontrada['capacidad']} persona(s).")
-        print(f"No se pueden acomodar {personas} personas en esta mesa.")
-        return
-
-    # Paso 4: Fecha
-    fecha = input("Fecha de la reserva (DD/MM/AAAA): ").strip()
-    if fecha == "":
-        print("ERROR: La fecha no puede estar vacía.")
-        return
-
-    # Paso 5: Hora y asignación automática de turno
-    mostrar_turnos()
-    hora = input("Ingrese la hora de la reserva (formato HH:MM, ej: 14:30): ").strip()
-
-    # Validación 3: ¿La hora corresponde a un turno válido?
-    turno = determinar_turno(hora)
-    if turno is None:
-        print(f"ERROR: La hora {hora} no corresponde a ningún turno disponible.")
+        # Detalles del Horario y Turno
+        print("\nHorarios disponibles del restaurante:")
         mostrar_turnos()
-        return
+        hora = input("\nIngrese la hora (HH:MM): ").strip()
 
-    print(f"Hora {hora} corresponde al turno: {turno}")
-
-    # Validación 4: ¿Hay superposición de horarios?
-    for r in reservas:
-        if (r['numero_mesa'] == numero_mesa and
-                r['fecha'] == fecha and
-                r['turno'].upper() == turno.upper()):
-            print(f"ERROR: Superposición detectada.")
-            print(f"La mesa #{numero_mesa} ya tiene una reserva el {fecha} en el turno {turno}.")
+        turno = determinar_turno(hora)
+        if turno is None:
+            print("ERROR: La hora ingresada no coincide con ningún turno (Desayuno, Almuerzo, Cena).")
             return
 
-    # Guardar la reserva
-    reservas.append({
-        "cliente":     nombre_cliente,
-        "numero_mesa": numero_mesa,
-        "capacidad":   mesa_encontrada['capacidad'],
-        "personas":    personas,
-        "fecha":       fecha,
-        "hora":        hora,
-        "turno":       turno
-    })
+        # Validar superposición antes de guardar
+        for r in reservas:
+            if (r['numero_mesa'] == numero_mesa and
+                    r['turno'].upper() == turno.upper()):
+                print(f"ERROR: Superposición detectada.")
+                print(f"La mesa #{numero_mesa} ya tiene una reserva en el turno {turno}.")
+                return
 
-    print(f"\n¡Reserva registrada con éxito!")
-    print(f"  Cliente : {nombre_cliente}")
-    print(f"  Mesa    : #{numero_mesa} (Capacidad: {mesa_encontrada['capacidad']})")
-    print(f"  Personas: {personas}")
-    print(f"  Fecha   : {fecha}")
-    print(f"  Turno   : {turno} ({hora})")
+        # Guardar reserva
+        reservas.append({
+            "cliente": cliente_encontrado['nombre'],
+            "telefono": cliente_encontrado['telefono'],
+            "numero_mesa": numero_mesa,
+            "capacidad": capacidad,
+            "hora": hora,
+            "turno": turno
+        })
+        print(f"\n¡Reserva confirmada con éxito para {cliente_encontrado['nombre']} en el turno {turno}!")
+
+    except ValueError:
+        print("ERROR: Entrada de datos numérica inválida.")
 
 
 # ================================================
-# VER TODAS LAS RESERVAS
+# VER RESERVAS
 # ================================================
 def ver_reservas():
-    print("\n===== RESUMEN DE RESERVAS =====")
+    print("\n===== LISTA DE RESERVAS ACTIVAS =====")
     if len(reservas) == 0:
-        print("No hay reservas registradas.")
+        print("No hay reservas confirmadas.")
         return
-    for i, r in enumerate(reservas, 1):
-        print(f"\nReserva #{i}")
-        print(f"  Cliente : {r['cliente']}")
-        print(f"  Mesa    : #{r['numero_mesa']} (Capacidad: {r['capacidad']} personas)")
-        print(f"  Personas: {r['personas']}")
-        print(f"  Fecha   : {r['fecha']}")
-        print(f"  Turno   : {r['turno']} ({r['hora']})")
+    for idx, r in enumerate(reservas, 1):
+        print(f"\n[{idx}] Cliente: {r['cliente']} | Teléfono: {r['telefono']}")
+        print(f"    Mesa Asignada: #{r['numero_mesa']} | Capacidad: {r['capacidad']} personas")
+        print(f"    Horario: {r['hora']} | Corresponde a: {r['turno']}")
+
+
+# ================================================
+# EDITAR RESERVA
+# ================================================
+def editar_reserva():
+    ver_reservas()
+    if len(reservas) == 0:
+        return
+    try:
+        idx = int(input("\nSeleccione el número de la reserva que desea editar: ")) - 1
+        if idx < 0 or idx >= len(reservas):
+            print("ERROR: Selección inválida.")
+            return
+
+        print(f"\nModificando reserva de: {reservas[idx]['cliente']}")
+        print(f"  Capacidad actual : {reservas[idx]['capacidad']} personas")
+        print(f"  Hora actual      : {reservas[idx]['hora']} ({reservas[idx]['turno']})")
+
+        # Submenú de edición
+        print("\n¿Qué desea modificar?")
+        print("1. Capacidad de la mesa")
+        print("2. Horario de la reserva")
+        print("3. Cancelar")
+
+        sub_op = input("Seleccione una opción: ")
+
+        # Opción 1 — Editar capacidad
+        if sub_op == "1":
+            nueva_capacidad = 0
+            while nueva_capacidad <= 0:
+                nueva_capacidad = int(input("Ingrese la nueva capacidad (mayor a 0): "))
+                if nueva_capacidad <= 0:
+                    print("ERROR: No puede ser cero ni negativo.")
+            reservas[idx]['capacidad'] = nueva_capacidad
+            print("¡Capacidad actualizada con éxito!")
+
+        # Opción 2 — Editar horario
+        elif sub_op == "2":
+            mostrar_turnos()
+            nueva_hora = input("\nIngrese la nueva hora (HH:MM): ").strip()
+
+            nuevo_turno = determinar_turno(nueva_hora)
+            if nuevo_turno is None:
+                print("ERROR: La hora ingresada no corresponde a ningún turno disponible.")
+                return
+
+            # Validar superposición con otras reservas
+            for i, r in enumerate(reservas):
+                if (i != idx and
+                        r['numero_mesa'] == reservas[idx]['numero_mesa'] and
+                        r['turno'].upper() == nuevo_turno.upper()):
+                    print(f"ERROR: Superposición detectada.")
+                    print(f"La mesa #{r['numero_mesa']} ya tiene una reserva en el turno {nuevo_turno}.")
+                    return
+
+            reservas[idx]['hora'] = nueva_hora
+            reservas[idx]['turno'] = nuevo_turno
+            print(f"¡Horario actualizado con éxito!")
+            print(f"  Nueva hora  : {nueva_hora}")
+            print(f"  Nuevo turno : {nuevo_turno}")
+
+        elif sub_op == "3":
+            print("Edición cancelada.")
+
+        else:
+            print("Opción no válida.")
+
+    except ValueError:
+        print("ERROR: Ingrese un número válido.")
 
 
 # ================================================
@@ -135,10 +165,10 @@ def cancelar_reserva():
     try:
         numero = int(input("\nNúmero de reserva a cancelar: "))
         if numero < 1 or numero > len(reservas):
-            print("ERROR: Número de reserva inválido.")
+            print("ERROR: Número inválido.")
             return
         eliminada = reservas.pop(numero - 1)
-        print(f"Reserva de {eliminada['cliente']} cancelada correctamente.")
+        print(f"La reserva de {eliminada['cliente']} para la Mesa #{eliminada['numero_mesa']} fue eliminada.")
     except ValueError:
         print("ERROR: Ingrese un número válido.")
 
@@ -148,26 +178,23 @@ def cancelar_reserva():
 # ================================================
 def menu_modulo2():
     while True:
-        print("\nMÓDULO DE RESERVAS")
-        print("1. Crear reserva")
-        print("2. Ver reservas")
-        print("3. Cancelar reserva")
-        print("4. Salir")
+        print("\n--- MÓDULO 2: GESTIÓN DE RESERVAS ---")
+        print("1. Confirmar y Completar Reserva")
+        print("2. Ver todas las Reservas")
+        print("3. Editar Reserva")
+        print("4. Cancelar Reserva")
+        print("5. Salir al Menú Principal")
 
         op = input("Seleccione una opción: ")
-        print()
-
         if op == "1":
             crear_reserva()
         elif op == "2":
             ver_reservas()
         elif op == "3":
-            cancelar_reserva()
+            editar_reserva()
         elif op == "4":
+            cancelar_reserva()
+        elif op == "5":
             break
         else:
             print("Opción no válida.")
-
-
-if __name__ == "__main__":
-    menu_modulo2()
