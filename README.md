@@ -64,6 +64,17 @@ El sistema cuenta con validaciones mediante bloques de control de excepciones tr
 En cumplimiento con las exigencias de control de calidad de la entrega final, el software incorpora una batería de pruebas automáticas utilizando el framework nativo unittest de Python.
 Para ejecutar todas las pruebas unitarias y verificar la integridad de la lógica de negocio directamente desde la consola, ejecute:
 
+* Modulo 1:
 ```bash
 python -m unittest discover -s src -p "test_modulo1.py"
+```
+* Modulo 2:
+```bash
+python -m unittest discover -s src -p "test_modulo_reserva.py"
+```
+* Modulo 3:
+
+* Todos los test:
+```bash
+python -m unittest discover -s src -p "test_*.py"
 ```
