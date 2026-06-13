@@ -73,7 +73,9 @@ python -m unittest discover -s src -p "test_modulo1.py"
 python -m unittest discover -s src -p "test_modulo_reserva.py"
 ```
 * Modulo 3:
-
+```bash
+python -m unittest discover -s src -p "test_modulo_infraestructura.py"
+```
 * Todos los test:
 ```bash
 python -m unittest discover -s src -p "test_*.py"
