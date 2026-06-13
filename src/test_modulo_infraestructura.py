@@ -1,54 +1,135 @@
+import unittest
+from unittest.mock import patch
+import io
+import os
+
 from infraestructura import (
-    mostrar_turnos,
     determinar_turno,
     guardar_mesas,
     cargar_mesas,
     reporte_infraestructura
 )
 
-print("===== PRUEBA DE TURNOS =====")
 
-# Mostrar turnos
-mostrar_turnos()
+class TestModuloInfraestructura(unittest.TestCase):
 
-# Probar determinar_turno
-print("\n===== PRUEBA DETERMINAR TURNO =====")
+    def setUp(self):
+        """Se ejecuta antes de cada prueba."""
+        if os.path.exists("mesas.json"):
+            os.remove("mesas.json")
 
-horas = [
-    "08:30",
-    "13:00",
-    "20:15",
-    "23:00"
-]
+    def tearDown(self):
+        """Se ejecuta después de cada prueba."""
+        if os.path.exists("mesas.json"):
+            os.remove("mesas.json")
 
-for hora in horas:
-    resultado = determinar_turno(hora)
-    print(f"Hora: {hora} -> Turno: {resultado}")
+    # ============================================
+    # PRUEBAS DE TURNOS
+    # ============================================
 
-# Datos de prueba para mesas
-mesas_prueba = [
-    {
-        "numero": 1,
-        "capacidad": 4
-    },
-    {
-        "numero": 2,
-        "capacidad": 6
-    },
-    {
-        "numero": 3,
-        "capacidad": 2
-    }
-]
+    def test_turno_desayuno(self):
+        self.assertEqual(
+            determinar_turno("08:00"),
+            "Desayuno"
+        )
 
-print("\n===== PRUEBA GUARDAR MESAS =====")
-guardar_mesas(mesas_prueba)
+    def test_turno_almuerzo(self):
+        self.assertEqual(
+            determinar_turno("14:00"),
+            "Almuerzo"
+        )
 
-print("\n===== PRUEBA CARGAR MESAS =====")
-mesas_cargadas = cargar_mesas()
+    def test_turno_cena(self):
+        self.assertEqual(
+            determinar_turno("20:00"),
+            "Cena"
+        )
 
-print("\nMesas cargadas:")
-print(mesas_cargadas)
+    def test_turno_invalido(self):
+        self.assertIsNone(
+            determinar_turno("23:00")
+        )
 
-print("\n===== PRUEBA REPORTE =====")
-reporte_infraestructura(mesas_cargadas)
+    # ============================================
+    # PRUEBAS DE PERSISTENCIA
+    # ============================================
+
+    def test_guardar_y_cargar_mesas(self):
+
+        mesas_prueba = [
+            {"numero": 1, "capacidad": 4},
+            {"numero": 2, "capacidad": 6}
+        ]
+
+        guardar_mesas(mesas_prueba)
+
+        resultado = cargar_mesas()
+
+        self.assertEqual(
+            resultado,
+            mesas_prueba
+        )
+
+    def test_cargar_sin_archivo(self):
+
+        resultado = cargar_mesas()
+
+        self.assertEqual(
+            resultado,
+            []
+        )
+
+    # ============================================
+    # PRUEBAS DE REPORTE
+    # ============================================
+
+    @patch("sys.stdout", new_callable=io.StringIO)
+    def test_reporte_sin_mesas(
+        self,
+        mock_stdout
+    ):
+
+        reporte_infraestructura([])
+
+        salida = mock_stdout.getvalue()
+
+        self.assertIn(
+            "REPORTE INFRAESTRUCTURA",
+            salida
+        )
+
+        self.assertIn(
+            "No hay mesas registradas",
+            salida
+        )
+
+    @patch("sys.stdout", new_callable=io.StringIO)
+    def test_reporte_con_mesas(
+        self,
+        mock_stdout
+    ):
+
+        mesas = [
+            {
+                "numero": 1,
+                "capacidad": 4
+            }
+        ]
+
+        reporte_infraestructura(mesas)
+
+        salida = mock_stdout.getvalue()
+
+        self.assertIn(
+            "Mesa #1",
+            salida
+        )
+
+        self.assertIn(
+            "Total de mesas: 1",
+            salida
+        )
+
+
+if __name__ == "__main__":
+    unittest.main()
